@@ -3,6 +3,7 @@
 open other lockboxes
 """
 
+
 def canUnlockAll(boxes):
     """
     Function that determines if you can open all the lockboxes
@@ -22,9 +23,9 @@ def canUnlockAll(boxes):
         # If we've already processed this box, continue to the next one
         if current_box in visited:
             continue
+            
 
-        visited.add(current_box)
-        
+        visited.add(current_box) 
         for key in boxes[current_box]:
             # Only add the key to the queue if it's a valid box number
             # and hasn't been visited yet
