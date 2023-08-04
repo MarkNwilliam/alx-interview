@@ -25,7 +25,8 @@ def canUnlockAll(boxes):
             continue
             
 
-        visited.add(current_box) 
+        visited.add(current_box)
+
         for key in boxes[current_box]:
             # Only add the key to the queue if it's a valid box number
             # and hasn't been visited yet
