@@ -9,9 +9,9 @@ def minOperations(n):
 
     operations = 0
     divisor = 2
-    
+
     # Break down the given number n into its prime factors
-    # The sum of those prime factors gives the minimum operations required
+    # The sum of those prime factors gives minimum operations
     while n > 1:
         while n % divisor == 0:
             operations += divisor
