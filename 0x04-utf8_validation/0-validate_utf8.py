@@ -1,32 +1,32 @@
 #!/usr/bin/python3
+"""uft-8 Validation"""
+
+
+def get_leading_set_bits(num):
+    """returns the number of leading set bits (1)"""
+    set_bits = 0
+    helper = 1 << 7
+    while helper & num:
+        set_bits += 1
+        helper = helper >> 1
+    return set_bits
+
 
 def validUTF8(data):
-    # Number of bytes in the current UTF-8 character
-    n_bytes = 0
-
-    # For each integer in the data array.
-    for num in data:
-        # Get the binary representation. We only need the least significant 8 bits
-        # for any given number.
-        bin_rep = format(num, '#010b')[-8:]
-
-        # If this is the start of a new character.
-        if n_bytes == 0:
-            for bit in bin_rep:
-                if bit == '0': break
-                n_bytes += 1
-            if n_bytes == 0:
+    """determines if a given data set represents a valid uft-8 encoding"""
+    bits_count = 0
+    for i in range(len(data)):
+        if bits_count == 0:
+            bits_count = get_leading_set_bits(data[i])
+            '''1-byte (format: 0xxxxxxx)'''
+            if bits_count == 0:
                 continue
-            # 1 byte characters should start with 0xxxxxxx.
-            if n_bytes == 1 or n_bytes > 4:
+            '''a character in UTF-8 can be 1 to 4 bytes long'''
+            if bits_count == 1 or bits_count > 4:
                 return False
         else:
-            # If it's one of the additional bytes in a character, it should start with 10xxxxxx.
-            if not bin_rep.startswith('10'):
+            '''checks if current byte has format 10xxxxxx'''
+            if not (data[i] & (1 << 7) and not (data[i] & (1 << 6))):
                 return False
-        n_bytes -= 1
-
-    # This is for the case where we might left something incomplete.
-    return n_bytes == 0
-
-# You can now test the function with the given data sets.
+        bits_count -= 1
+    return bits_count == 0
