@@ -2,12 +2,23 @@
 """
 Nqueens problem
 """
-import sys
 
+import sys
 
 def backtrack(r, n, cols, pos, neg, board):
     """
-    function to find solution
+    Uses backtracking to find all possible solutions for the N-queens problem.
+
+    Parameters:
+    - r: Current row being evaluated.
+    - n: Size of the board (n x n).
+    - cols: Set of columns with queens.
+    - pos: Set of positive diagonals with queens.
+    - neg: Set of negative diagonals with queens.
+    - board: 2D list representing the board. 1 indicates a queen, 0 indicates an empty square.
+
+    Returns:
+    None. All solutions are printed directly from this function.
     """
     if r == n:
         res = []
@@ -37,9 +48,13 @@ def backtrack(r, n, cols, pos, neg, board):
 
 def nqueens(n):
     """
-    Nqueens problem
-        List of lists representing coordinates of each
-        queen for all possible solutions
+    Initiates the backtrack function for the N-queens problem.
+
+    Parameters:
+    - n: Size of the board (n x n).
+
+    Returns:
+    None. All solutions are printed directly from the backtracking function.
     """
     cols = set()
     pos_diag = set()
@@ -63,3 +78,4 @@ if __name__ == "__main__":
     except ValueError:
         print("N must be a number")
         sys.exit(1)
+
