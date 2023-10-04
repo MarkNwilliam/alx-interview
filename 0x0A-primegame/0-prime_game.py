@@ -1,55 +1,44 @@
 #!/usr/bin/python3
-#!/usr/bin/python3
-"""Module defining isWinner function."""
+"""
+Define isWineer function, a solution to the Prime Game problem
+"""
+
+
+def primes(n):
+    """Return list of prime numbers between 1 and n inclusive
+       Args:
+        n (int): upper boundary of range. lower boundary is always 1
+    """
+    prime = []
+    sieve = [True] * (n + 1)
+    for p in range(2, n + 1):
+        if (sieve[p]):
+            prime.append(p)
+            for i in range(p, n + 1, p):
+                sieve[i] = False
+    return prime
 
 
 def isWinner(x, nums):
-    if not nums or x < 1:
+    """
+    Determines winner of Prime Game
+    Args:
+        x (int): no. of rounds of game
+        nums (int): upper limit of range for each round
+    Return:
+        Name of winner (Maria or Ben) or None if winner cannot be found
+    """
+    if x is None or nums is None or x == 0 or nums == []:
         return None
-    
-    def getPrimes(n):
-        """ Returns a list of prime numbers up to n """
-        sieve = [1 for _ in range(n + 1)]
-        sieve[0], sieve[1] = 0, 0
-        for i in range(2, int(n**0.5) + 1):
-            if sieve[i]:
-                for j in range(i*i, n + 1, i):
-                    sieve[j] = 0
-        return [i for i, v in enumerate(sieve) if v]
-
-    max_num = max(nums)
-    primes = getPrimes(max_num)
-
-    Maria_score = 0
-    Ben_score = 0
-
-    for n in nums:
-        available = [True for _ in range(n + 1)]
-        current_primes = [p for p in primes if p <= n]
-        turn_maria = True
-        
-        while current_primes:
-            prime = current_primes.pop(0)
-            if available[prime]:
-                for i in range(prime, n + 1, prime):
-                    available[i] = False
-            for prime in current_primes:
-                if not available[prime]:
-                    current_primes.remove(prime)
-            turn_maria = not turn_maria
-        
-        if turn_maria:
-            Ben_score += 1
+    Maria = Ben = 0
+    for i in range(x):
+        prime = primes(nums[i])
+        if len(prime) % 2 == 0:
+            Ben += 1
         else:
-            Maria_score += 1
-
-    if Maria_score > Ben_score:
-        return "Maria"
-    elif Maria_score < Ben_score:
-        return "Ben"
-    else:
-        return None
-
-
-# Test
-print("Winner:", isWinner(5, [2, 5, 1, 4, 3]))
+            Maria += 1
+    if Maria > Ben:
+        return 'Maria'
+    elif Ben > Maria:
+        return 'Ben'
+    return None
